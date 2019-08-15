@@ -24,9 +24,20 @@
 <b:else/>
 <title><data:blog.pageName/> | <data:blog.title/></title>
 </b:if>
+<!--
+	//////////////////////////////////////////////////////
+	
+	Author:			A Mash Up Themes
+	Website: 		https://amashupthemes.com
+	Template:       MashUp
+	Date: 			13. July. 2018
+	Etsy Shop:		https://www.etsy.com/de/shop/AMashUpThemes
 
-<link href='https://cdn.bootcss.com/slick-carousel/1.8.1/slick.css' rel='stylesheet' type='text/css'/>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css' rel='stylesheet' type='text/css'/>
+	//////////////////////////////////////////////////////
+
+-->
+<link href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css' rel='stylesheet' type='text/css'/>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css' rel='stylesheet' type='text/css'/>
 <script>//<![CDATA[
 $(document).ready(function(){
 $('.jh-slider-posts-images').slick({
@@ -56,7 +67,7 @@ centerPadding: '150px',
 });
 //]]></script>
 <script src='https://code.jquery.com/jquery-migrate-1.2.1.min.js' type='text/javascript'/>
-<script src='https://cdn.bootcss.com/slick-carousel/1.8.1/slick.min.js' type='text/javascript'/>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js' type='text/javascript'/>
 <script>//<![CDATA[
 var posts_no = 10;
 var showpoststhumbs = true;
@@ -143,17 +154,14 @@ function autoslide(t) {
 <!--
 	//////////////////////////////////////////////////////
 	
-	JiveHype 在中國的主題&#12290; 查看我們的網站&#12290;
-
-	JIVEHYPE.CO
-	DESIGNED & DEVELOPED by JIVEHYPE
-
-	Website: 		httpS://jivehype.co
-	Email: 			info@jivehype.co
-
-	網站&#65306;jivehype.co
+	Author:			A Mash Up Themes
+	Website: 		https://amashupthemes.com
+	Template:       MashUp
+	Date: 			13. July. 2018
+	Etsy Shop:		https://www.etsy.com/de/shop/AMashUpThemes
 
 	//////////////////////////////////////////////////////
+
 -->
 
 ==============================================
@@ -307,7 +315,7 @@ background: #ccc;
 .scroll {
 font-family: FontAwesome;
 color: #000;
-font-size: 15px;
+font-size: 35px;
 text-align: center;
 padding: 0;
 position: fixed;
@@ -517,9 +525,7 @@ margin: 0;
 .menu-toggle {
 display: none;
 }
-#jh-navigation-section {
-visibility: hidden;
-}
+
 }
 @media screen and (max-width: 1024px) {
 .header {
@@ -1474,6 +1480,28 @@ color: #000;
 .jh-cy a:hover {
 color: #000;
 }
+
+.jh-c-footer {
+  
+    position: relative;
+    bottom: 0;
+    background: #000;
+    padding: 12px 0;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font: 10px Montserrat,arial,sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.jh-c-footer a,
+.jh-c-footer a:visited {
+color: #fff;
+}
+.jh-c-footer a:hover {
+color: #ccc;
+}
+
 #blog-pager {
 font-family: 'Cormorant Garamond', serif;
 font-weight: 400;
@@ -1826,6 +1854,11 @@ var relatedTitlesNum = 0;
 var relatedUrls = new Array();
 var thumburl = new Array();
 
+var relatedpoststitle='similar entries';
+var maxresults=3;               
+var currentposturl = '<data:post.url/>'
+
+
 function related_results_labels_thumbs(e) {
     for (var i = 0; i < e.feed.entry.length; i++) {
         var f = e.feed.entry[i];
@@ -1850,6 +1883,9 @@ function related_results_labels_thumbs(e) {
             }
         }
     }
+
+removeRelatedDuplicates_thumbs();
+printRelatedLabels_thumbs();
 }
 
 function removeRelatedDuplicates_thumbs() {
@@ -1888,21 +1924,43 @@ function printRelatedLabels_thumbs() {
     }
     var r = Math.floor((relatedTitles.length - 1) * Math.random());
     var i = 0;
-    if (relatedTitles.length > 0) document.write('<h2>' + relatedpoststitle + '</h2>');
-    document.write('');
-    while (i < relatedTitles.length && i < 20 && i < maxresults) {
-        document.write('<div class="jh-related-s"><div class="jh-r-section-space"><a ');
-        if (i != 0) document.write('"');
-        else document.write('"');
-        document.write(' href="' + relatedUrls[r] + '"><div class="jh-related-post-thumbnails" style="background: url(' + thumburl[r] + ')"></div><div class="jh-r-img-1"><div class="jh-r-img-2"><div class="jh-r-img-3"><div class="jh-r-img-4"><div class="jh-r-titles">' + relatedTitles[r] + '</div></div></div></div></div></div></a></div>');
+   
+
+	//if (relatedTitles.length > 0) document.write('<h2>' + relatedpoststitle + '</h2>');
+   // document.write('');
+
+   var htmlContent = "";
+   if (relatedTitles.length > 0) htmlContent='<h2>' + relatedpoststitle + '</h2>';
+   $(".jh-r-section-posts").html(htmlContent)
+
+
+   while (i < relatedTitles.length && i < 20 && i < maxresults) {
+
+
+   	htmlContent+='<div class="jh-related-s"><div class="jh-r-section-space"><a '
+   	
+
+
+   	if (i != 0)  htmlContent+='"';
+   	else htmlContent+='"';
+   	htmlContent +=' href="' + relatedUrls[r] + '"><div class="jh-related-post-thumbnails" style="background: url(' + thumburl[r] + ')"></div><div class="jh-r-img-1"><div class="jh-r-img-2"><div class="jh-r-img-3"><div class="jh-r-img-4"><div class="jh-r-titles">' + relatedTitles[r] + '</div></div></div></div></div></div></a></div>';
+
+
+   	$(".jh-r-section-posts").html(htmlContent)
+
+        // document.write('<div class="jh-related-s"><div class="jh-r-section-space"><a ');
+        // if (i != 0) document.write('"');
+        // else document.write('"');
+        // document.write(' href="' + relatedUrls[r] + '"><div class="jh-related-post-thumbnails" style="background: url(' + thumburl[r] + ')"></div><div class="jh-r-img-1"><div class="jh-r-img-2"><div class="jh-r-img-3"><div class="jh-r-img-4"><div class="jh-r-titles">' + relatedTitles[r] + '</div></div></div></div></div></div></a></div>');
         if (r < relatedTitles.length - 1) {
-            r++
+        	r++
         } else {
-            r = 0
+        	r = 0
         }
         i++
     }
-    document.write('');
+    //document.write('');
+
     relatedUrls.splice(0, relatedUrls.length);
     thumburl.splice(0, thumburl.length);
     relatedTitles.splice(0, relatedTitles.length)
@@ -1951,7 +2009,7 @@ $(document).ready(function() {
 <b:section class='menu' id='menu' maxwidgets='3' showaddelement='yes'>
   <b:widget id='PageList1' locked='false' title='Pages' type='PageList' version='1'>
     <b:widget-settings>
-      <b:widget-setting name='pageListJson'><![CDATA[{'home': {'href': 'https://astriddemo.blogspot.com/', 'title': 'Home', 'position': 0}}]]></b:widget-setting>
+      <b:widget-setting name='pageListJson'><![CDATA[{'home': {'href': 'https://mashup-white-theme.blogspot.com/', 'title': 'Home', 'position': 0}}]]></b:widget-setting>
       <b:widget-setting name='homeTitle'>Home</b:widget-setting>
     </b:widget-settings>
     <b:includable id='main'>
@@ -2019,7 +2077,7 @@ $(document).ready(function() {
   </b:widget>
   <b:widget id='HTML100' locked='false' title='Social Icons' type='HTML'>
     <b:widget-settings>
-      <b:widget-setting name='content'>&lt;!-- change here your social media icons more at https://jivehype.co --&gt;
+      <b:widget-setting name='content'>&lt;!-- change here your social media icons more at  --&gt;
 
 &lt;div class=&#39;jh-social-network-links&#39;&gt;
 &lt;a href=&#39;LINK&#39; target=&#39;_blank&#39;&gt;&lt;i class=&#39;fa fa-twitter&#39;&gt;&lt;/i&gt;&lt;/a&gt;
@@ -2048,15 +2106,29 @@ $(document).ready(function() {
 </div>
 <div class='jh-header-section-space'>
 <b:section class='header' id='header' maxwidgets='' showaddelement='yes'>
-  <b:widget id='Header1' locked='false' title='watch (Header)' type='Header'>
+  <b:widget id='Attribution1' locked='false' title='' type='Attribution'>
     <b:widget-settings>
-      <b:widget-setting name='displayUrl'/>
-      <b:widget-setting name='displayHeight'>0</b:widget-setting>
-      <b:widget-setting name='sectionWidth'>-1</b:widget-setting>
-      <b:widget-setting name='useImage'>false</b:widget-setting>
+      <b:widget-setting name='copyright'/>
+    </b:widget-settings>
+    <b:includable id='main'>
+    <div class='widget-content' style='text-align: center;'>
+      <b:if cond='data:attribution != &quot;&quot;'>
+       <data:attribution/>
+      </b:if>
+    </div>
+
+    <b:include name='quickedit'/>
+  </b:includable>
+  </b:widget>
+  <b:widget id='Header1' locked='false' title='Mash Up (Header)' type='Header'>
+    <b:widget-settings>
+      <b:widget-setting name='displayUrl'>https://3.bp.blogspot.com/-m5CiN2gkrQw/XFIEUYnJ2PI/AAAAAAAAA18/U8OUUhZkmuk9yj5Uhrd0xanjHOJDD3IPgCK4BGAYYCw/s1600/logo-mu-5.png</b:widget-setting>
+      <b:widget-setting name='displayHeight'>87</b:widget-setting>
+      <b:widget-setting name='sectionWidth'>800</b:widget-setting>
+      <b:widget-setting name='useImage'>true</b:widget-setting>
       <b:widget-setting name='shrinkToFit'>false</b:widget-setting>
-      <b:widget-setting name='imagePlacement'>BEHIND</b:widget-setting>
-      <b:widget-setting name='displayWidth'>0</b:widget-setting>
+      <b:widget-setting name='imagePlacement'>BEFORE_DESCRIPTION</b:widget-setting>
+      <b:widget-setting name='displayWidth'>354</b:widget-setting>
     </b:widget-settings>
     <b:includable id='main'>
 
@@ -2124,20 +2196,6 @@ $(document).ready(function() {
   </b:tag>
 </b:includable>
   </b:widget>
-  <b:widget id='Attribution1' locked='false' title='' type='Attribution'>
-    <b:widget-settings>
-      <b:widget-setting name='copyright'/>
-    </b:widget-settings>
-    <b:includable id='main'>
-    <div class='widget-content' style='text-align: center;'>
-      <b:if cond='data:attribution != &quot;&quot;'>
-       <data:attribution/>
-      </b:if>
-    </div>
-
-    <b:include name='quickedit'/>
-  </b:includable>
-  </b:widget>
 </b:section>
 </div>
 <b:if cond='data:blog.url == data:blog.homepageUrl'>
@@ -2176,7 +2234,7 @@ See more at your install Video :
 <div class='jh-main-section-space'>
 <div class='jh-content-section'>
 <b:section class='main' id='main' maxwidgets='' showaddelement='yes'>
-  <b:widget id='Blog1' locked='false' title='Blogposts' type='Blog' version='1'>
+  <b:widget id='Blog1' locked='false' title='Blog Posts' type='Blog' version='1'>
     <b:widget-settings>
       <b:widget-setting name='showDateHeader'>true</b:widget-setting>
       <b:widget-setting name='style.textcolor'>#333333</b:widget-setting>
@@ -2851,15 +2909,19 @@ olderLink.html(''+$(data2).find('.post h1.post-title').text()+'');
 //]]> 
 </script>
 <div class='jh-r-section-posts'>
+
+<script>
+var label=[];
+</script>
+
 <b:loop values='data:post.labels' var='label'>
-<script expr:src='&quot;/feeds/posts/default/-/&quot; + data:label.name + &quot;?alt=json-in-script&amp;callback=related_results_labels_thumbs&amp;max-results=30&quot;' type='text/javascript'/></b:loop>
-<script type='text/javascript'>//<![CDATA[
-var currentposturl='<data:post.url/>';
-var maxresults=3;
-var relatedpoststitle='similar entries';
-removeRelatedDuplicates_thumbs();
-printRelatedLabels_thumbs();
-//]]></script>
+<script>
+  label.push(&quot;<data:label.name/>&quot;);
+</script>
+<!-- <script expr:src='&quot;/feeds/posts/default/-/&quot; + data:label.name + &quot;?alt=json-in-script&amp;callback=related_results_labels_thumbs&amp;max-results=30&quot;' type='text/javascript'/>-->
+</b:loop>
+
+
 <div style='clear: both;'/>
 </div>
 </b:if>
@@ -3132,21 +3194,6 @@ printRelatedLabels_thumbs();
 </div>
 <div class='jh-aside-section'>
 <b:section class='sidebar' id='sidebar' maxwidgets='' showaddelement='yes'>
-  <b:widget id='Image99' locked='false' title='Welcome' type='Image' version='1'>
-    <b:includable id='main'>
-    <div class='widget-content'>
-      <b:if cond='data:link'>
-        <a expr:href='data:link'>
-          <img expr:alt='data:title' expr:height='data:height' expr:id='data:widget.instanceId + &quot;_img&quot;' expr:src='data:sourceUrl' expr:width='data:width'/>
-        </a>
-      <b:else/>
-        <img expr:alt='data:title' expr:height='data:height' expr:id='data:widget.instanceId + &quot;_img&quot;' expr:src='data:sourceUrl' expr:width='data:width'/>
-      </b:if>
-      <div class='caption'><div class='title'><data:title/></div><b:if cond='data:caption'><data:caption/></b:if></div>
-    </div>
-    <b:include name='quickedit'/>
-  </b:includable>
-  </b:widget>
   <b:widget id='FollowByEmail1' locked='false' title='Subscribe' type='FollowByEmail' version='1'>
     <b:includable id='main'>
   <b:if cond='data:title != &quot;&quot;'>
@@ -3164,6 +3211,30 @@ printRelatedLabels_thumbs();
     </div>
   </div>
 </b:includable>
+  </b:widget>
+  <b:widget id='Image99' locked='false' title='Welcome' type='Image' version='1'>
+    <b:widget-settings>
+      <b:widget-setting name='displayUrl'>http://3.bp.blogspot.com/-aRNj3Mz7khA/XN6PvUKx0HI/AAAAAAAAAX8/a3wwxrgQ87g2dhI6oeo7bKKrSsr5yOV0wCK4BGAYYCw/s1600/23347508_140966403218378_6902052555371577344_n.jpg</b:widget-setting>
+      <b:widget-setting name='displayHeight'>1350</b:widget-setting>
+      <b:widget-setting name='sectionWidth'>240</b:widget-setting>
+      <b:widget-setting name='shrinkToFit'>false</b:widget-setting>
+      <b:widget-setting name='displayWidth'>1080</b:widget-setting>
+      <b:widget-setting name='link'/>
+      <b:widget-setting name='caption'>to my Blog</b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+    <div class='widget-content'>
+      <b:if cond='data:link'>
+        <a expr:href='data:link'>
+          <img expr:alt='data:title' expr:height='data:height' expr:id='data:widget.instanceId + &quot;_img&quot;' expr:src='data:sourceUrl' expr:width='data:width'/>
+        </a>
+      <b:else/>
+        <img expr:alt='data:title' expr:height='data:height' expr:id='data:widget.instanceId + &quot;_img&quot;' expr:src='data:sourceUrl' expr:width='data:width'/>
+      </b:if>
+      <div class='caption'><div class='title'><data:title/></div><b:if cond='data:caption'><data:caption/></b:if></div>
+    </div>
+    <b:include name='quickedit'/>
+  </b:includable>
   </b:widget>
   <b:widget id='PopularPosts1' locked='false' title='Popular Posts' type='PopularPosts' version='1'>
     <b:widget-settings>
@@ -3297,7 +3368,7 @@ printRelatedLabels_thumbs();
       <b:widget-setting name='showPostTitle'>true</b:widget-setting>
       <b:widget-setting name='postId'>6409679052769655561</b:widget-setting>
       <b:widget-setting name='showFirstImage'>true</b:widget-setting>
-      <b:widget-setting name='useMostRecentPost'>false</b:widget-setting>
+      <b:widget-setting name='useMostRecentPost'>true</b:widget-setting>
     </b:widget-settings>
     <b:includable id='main'>
   <!-- Only display title if it's non-empty -->
@@ -3346,14 +3417,14 @@ printRelatedLabels_thumbs();
   </b:widget>
   <b:widget id='HTML1' locked='false' title='Latest Pins' type='HTML'>
     <b:widget-settings>
-      <b:widget-setting name='content'>&lt;!-- Add here your Pinterest Account Details : if your need any help, please feel free to contact our support team! https://jivehype.co --&gt;
+      <b:widget-setting name='content'>&lt;!-- Add here your Pinterest Account Details : if your need any help, please feel free to contact our support team! --&gt;
 
 
 &lt;script&gt;
 $.ajax({
 dataType: &#39;jsonp&#39;,
 type: &#39;GET&#39;,
-url: &#39;https://widgets.pinterest.com/v3/pidgets/users/jivehype/pins&#39;
+url: &#39;https://widgets.pinterest.com/v3/pidgets/users/mashupthemes/pins&#39;
 }).done(function(response) {
 var pins = response.data.pins;
 var html = &#39;&#39;;
@@ -3402,9 +3473,9 @@ console.log(&#39;erro&#39;);
 <div class='jh-large-section-space'>
  <div class='insta-outer'>
           <b:section class='instafeed-widget' id='instafeed-widget' maxwidgets='1' name='Q - Your Instagram Widget' showaddelement='yes'>
-            <b:widget id='HTML97' locked='true' title='follow me' type='HTML' version='1'>
+            <b:widget id='HTML97' locked='true' title='follow me @ instagram' type='HTML' version='1'>
               <b:widget-settings>
-                <b:widget-setting name='content'>6103125881.1677ed0.5d714fe25d14463db406bdb38e8014d7</b:widget-setting>
+                <b:widget-setting name='content'>10835327724.1677ed0.14f259e6e73b476e9c83bdf72b9e2980</b:widget-setting>
               </b:widget-settings>
               <b:includable id='main'>
   <!-- only display title if it's non-empty -->
@@ -3439,16 +3510,23 @@ template: '<li><a href="{{link}}" target="_blank"><img src="{{image}}" /><div cl
  
 </div>
 <div class='jh-cy'>
-<div class='jh-cy-section'>
-<a expr:href='data:blog.homepageUrl'><data:blog.title/></a> &#169; <script type='text/javascript'>var jhyear = new Date();document.write(jhyear.getFullYear());</script>. <a href='https://jivehype.co' target='_blank'>Template by <strong>JiveHype.co</strong></a>.  <br/><a expr:href='data:blog.homepageUrl + &quot;feeds/posts/default&quot;' title='Post RSS'>
+<div class='jh-cy-section'> &#169;
+<a expr:href='data:blog.homepageUrl'><data:blog.title/></a>  <script type='text/javascript'>var jhyear = new Date();document.write(jhyear.getFullYear());</script>. 
+		
+		<a expr:href='data:blog.homepageUrl + &quot;feeds/posts/default&quot;' title='Post RSS'>
           Posts RSS
         </a>
-        . 
+        
         <a expr:href='data:blog.homepageUrl + &quot;feeds/comments/default&quot;' title='Comments RSS'>
           Comments RSS
   		</a>
 </div>
 </div>
+
+<div class='jh-c-footer'><!-- Don't remove the Copyright section, be aware, some of the code are monitored and tracked. if you want remove the copyright section, please read our Terms & Friendly Question Ask https://amashupthemes.com/fqa/
+If you want remove it coat amount $1220 --> <a href='https://etsy.me/2YwNpaz' target='_blank'>Powered by MashUPThemes.com</a>
+</div>
+
 </div>
 
 <script type='text/javascript'>
@@ -3458,10 +3536,7 @@ jQuery(function($){$.fn.scrollToTop=function(){$(this).hide().removeAttr(&quot;h
 <script>//<![CDATA[
 $(".archivedate").hasClass("expanded")&&($(".archivedate").removeClass("expanded"),$(".archivedate").addClass("collapsed")),$(".menu-toggle").click(function(){$(".menu").slideToggle("slow")}),$(".menu-toggle").click(function(){$(this).toggleClass("open")});
 //]]></script>
-<script type='text/javascript'>//<![CDATA[
-function showIt() {document.getElementById("jh-navigation-section").style.visibility = "visible";}
-setTimeout("showIt()", 300);
-//]]></script>
+
 <script type='text/javascript'>//<![CDATA[
 $(function(){var i=$("#PageList1 ul"),e=$('li a:contains("__")'),t=$('li a:contains("_")');if(void 0==i.attr("class")){i.addClass("nav");s="nav"}else var s=i.attr("class");t.parent().addClass("child-item");for(var n=$(".child-item"),a=0;a<n.length;)a+=n.eq(a).nextUntil(":not(.child-item)").andSelf().wrapAll("<ul></ul>").length;n.parent().addClass("section-two"),e.parent().addClass("jh-section-space-inside");for(var l=$(".jh-section-space-inside"),a=0;a<l.length;)a+=l.eq(a).nextUntil(":not(.jh-section-space-inside)").andSelf().wrapAll("<ul></ul>").length;l.parent().addClass("section-three"),$("."+s+" > li").addClass("parent"),$("."+s+" a").each(function(){$(this).text($(this).text().replace(/_/g," "))}),$(".section-two > .child-item").each(function(){$(this).next().is(".section-three")&&$(this).next().appendTo($(this))}),$("."+s+" > .parent").each(function(){$(this).next().is(".section-two")&&$(this).next().appendTo($(this))}),$("."+s).wrap('<div class="menus"></div>'),$(".section-two").before('<i class="fa fa-fw fa-angle-down"></i>'),$(".section-three").before('<i class="fa fa-fw fa-angle-right"></i>'),$(".fa-angle-down").click(function(){$(this).siblings(".section-two").is(":hidden")?($(".menus .section-two").slideUp(),$(this).siblings(".section-two").slideToggle()):$(this).siblings(".section-two").slideUp()}),$(".fa-angle-right").click(function(){$(this).siblings(".section-three").is(":hidden")?($(".menus .section-three").slideUp(),$(this).siblings(".section-three").slideToggle()):$(this).siblings(".section-three").slideUp()}),$("li > .fa-angle-right").length>0&&$("li > .fa-angle-right").parent().addClass("saveit")});
 //]]></script>
@@ -3531,6 +3606,29 @@ $( ".index-post,.post-footer,.jh-aside-section" ).remove();
 $( ".post-footer .Featured,.post-footer .featured" ).remove();
 //]]></script>
 <b:include data='blog' name='google-analytics'/>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async='async' src='https://www.googletagmanager.com/gtag/js?id=UA-110094259-1'/>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag(&#39;js&#39;, new Date());
 
+  gtag(&#39;config&#39;, &#39;UA-110094259-1&#39;);
+</script>
+    
+<script type='text/javascript'>//<![CDATA[
+
+$.each(label,function(index){
+
+	$.ajax({
+		url : "/feeds/posts/default/-/"+label[0]+"?alt=json&max-results=30",
+		type: 'GET',
+		success : function(data){
+			related_results_labels_thumbs(data)		
+		}
+	})
+});
+
+//]]></script>
 </body>
 </html>
